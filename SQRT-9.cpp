@@ -3,7 +3,8 @@
 #include <vector>
 
 // Function to compute the continued fraction expansion of the square root
-std::vector<int> continuedFractionExpansion(int S, double& decimalApproximation, int maxIterations = 10) {
+template<typename Real>
+std::vector<int> continuedFractionExpansion(int S, Real& decimalApproximation, int maxIterations = 10) {
     std::vector<int> coefficients;
     int a = std::sqrt(S);
     int r = S - a * a;
@@ -28,11 +29,12 @@ std::vector<int> continuedFractionExpansion(int S, double& decimalApproximation,
 }
 
 int main() {
+	using Real = double;
     int S;
     std::cout << "Enter a positive integer S to find the continued fraction expansion of sqrt(S): ";
     std::cin >> S;
 
-    double decimalApproximation;
+    Real decimalApproximation;
     std::vector<int> expansion = continuedFractionExpansion(S, decimalApproximation);
     
     std::cout << "Decimal approximation of sqrt(" << S << "): " << decimalApproximation << std::endl;

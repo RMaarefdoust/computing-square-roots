@@ -3,21 +3,22 @@
 #include <cmath>
 
 // Function to calculate the square root and reciprocal square root using Goldschmidt's algorithm
-std::pair<double, double> goldschmidtSqrtAndReciprocalSqrt(double S, int maxIterations = 100, double tolerance = 1e-10) {
+template<typename Real>
+std::pair<Real, Real> goldschmidtSqrtAndReciprocalSqrt(Real S, int maxIterations = 10, Real tolerance = 1e-7) {
     if (S <= 0) {
         std::cerr << "Error: Non-positive input to sqrt function." << std::endl;
         return {-1, -1};
     }
 
-    double Y0 = 1.0 / sqrt(S);
-    double y = Y0;
-    double x = S * y;
-    double b = S;
+    Real Y0 = 1.0 / sqrt(S);
+    Real y = Y0;
+    Real x = S * y;
+    Real b = S;
 
     for (int n = 0; n < maxIterations; ++n) {
-        double Yn = 0.5 * (3 - b);
-        double xNew = x * Yn;
-        double yNew = y * Yn;
+        Real Yn = 0.5 * (3 - b);
+        Real xNew = x * Yn;
+        Real yNew = y * Yn;
         
         if (std::isnan(xNew) || std::isnan(yNew)) {
             std::cerr << "Error: Failed to converge. NaN encountered." << std::endl;
@@ -38,7 +39,8 @@ std::pair<double, double> goldschmidtSqrtAndReciprocalSqrt(double S, int maxIter
 }
 
 int main() {
-    double number;
+	using Real = double;
+    Real number;
     std::cout << "Enter a number to find the square root and reciprocal square root of: ";
     std::cin >> number;
 
