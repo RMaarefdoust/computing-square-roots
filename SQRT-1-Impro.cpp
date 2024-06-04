@@ -1,6 +1,7 @@
-//Heron's method
+// Heron's method
 #include <iostream>
 #include <cmath>
+#include <limits>
 
 // Heron's method
 template<typename Real>
@@ -10,22 +11,31 @@ Real heronSqrt(Real number, Real tolerance = 1e-7, int maxIterations = 1000) {
         return -1;
     }
 
-    Real guess = number / 2.0;
-    Real nextGuess = (guess + number / guess) / 2.0;
+    if (number == 0) {
+        return 0;
+    }
+
+    Real guess = number *0.5;
+    Real nextGuess = (guess + number / guess) * 0.5;
     int iterations = 0;
 
-    while (std::abs(nextGuess - guess) > tolerance && iterations < maxIterations) {
+    while (std::abs(nextGuess - guess) > tolerance * (nextGuess + guess) && iterations < maxIterations) {
         guess = nextGuess;
-        nextGuess = (guess + number / guess) / 2.0;
+        Real newGuess = number / guess;
+        nextGuess = (guess + newGuess) * 0.5;
         iterations++;
     }
+
+    // Using the final value to compensate for potential precision errors
+    Real correction = number / nextGuess;
+    nextGuess = (nextGuess + correction) * 0.5;
 
     return nextGuess;
 }
 
 int main() {
-	using Real = double;
-	Real number;
+    using Real = double;
+    Real number;
     std::cout << "Enter a number to find the square root of: ";
     std::cin >> number;
 
